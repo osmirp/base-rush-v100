@@ -2450,7 +2450,7 @@ function renderEconomy(){
   const box=el('economyShop');
   if(box)box.innerHTML=SHOP_V20.map(it=>{
     const bal=it.currency==='gem'?(state.gems||0):(state.coins||0);
-    return '<div class="shop-item-v20"><div class="pic">'+it.ico+'</div><b>'+it.name+'</b><small>'+it.desc+'</small><div class="price-v20">'+it.price+' '+(it.currency==='gem'?'💎':'💰')+'</div><button class="buy-v20" onclick="v20Buy(\\''+it.id+'\\')" '+(bal<it.price?'disabled':'')+'>COMPRAR</button></div>';
+    return '<div class="shop-item-v20"><div class="pic">'+it.ico+'</div><b>'+it.name+'</b><small>'+it.desc+'</small><div class="price-v20">'+it.price+' '+(it.currency==='gem'?'💎':'💰')+'</div><button class="buy-v20" onclick="v20Buy(\''+it.id+'\')" '+(bal<it.price?'disabled':'')+'>COMPRAR</button></div>';
   }).join('');
 }
 document.addEventListener('click',e=>{
@@ -2576,7 +2576,7 @@ function v23Talk(id){
   const d=document.createElement('div');d.className='npc-dialog-v23';
   d.innerHTML='<div style="display:flex;gap:10px;align-items:center"><div style="font-size:34px">'+q.icon+'</div><div><b>'+q.name+'</b><small style="display:block;color:#8fa0b8">'+q.title+'</small></div></div>'+
     '<p style="color:#b8c5d7;font-size:13px;line-height:1.5">'+(done?'“Bom trabalho, comandante! Essa missão já está concluída.”':'“Tenho uma tarefa para você: '+q.desc+'”')+'</p>'+
-    '<div style="display:flex;justify-content:space-between;align-items:center"><span>🎁 '+q.reward+' 💰 · ⭐ '+q.xp+' XP</span><button class="btn '+(!done?'primary':'')+'" '+(done?'disabled':'')+' onclick="v23Claim(\\''+id+'\\');this.closest(\\'.npc-dialog-v23\\').remove()">'+(done?'CONCLUÍDA':'ACEITAR / CONCLUIR')+'</button></div>';
+    '<div style="display:flex;justify-content:space-between;align-items:center"><span>🎁 '+q.reward+' 💰 · ⭐ '+q.xp+' XP</span><button class="btn '+(!done?'primary':'')+'" '+(done?'disabled':'')+' onclick="v23Claim(\''+id+'\');this.closest(\'.npc-dialog-v23\').remove()">'+(done?'CONCLUÍDA':'ACEITAR / CONCLUIR')+'</button></div>';
   document.body.appendChild(d);
 }
 function v23Claim(id){
@@ -2596,7 +2596,7 @@ function renderNpcQuests(){
   const c=document.getElementById('npcQuestCount');if(c)c.textContent=doneCount+'/3';
   box.innerHTML=Object.entries(NPC_QUESTS).map(([id,q])=>{
     const done=!!state.npcState?.completed?.[id];
-    return '<div class="quest-card-v23 '+(done?'done':'')+'"><div class="quest-head-v23"><div class="quest-icon-v23">'+q.icon+'</div><div><b>'+q.title+'</b><small>'+q.name+' · '+q.desc+'</small></div></div><div class="quest-reward-v23"><span>🎁 '+q.reward+' 💰 · ⭐ '+q.xp+' XP</span><button class="btn '+(!done?'primary':'')+'" onclick="v23Talk(\\''+id+'\\')" '+(done?'disabled':'')+'>'+(done?'✓ FEITA':'VER MISSÃO')+'</button></div></div>';
+    return '<div class="quest-card-v23 '+(done?'done':'')+'"><div class="quest-head-v23"><div class="quest-icon-v23">'+q.icon+'</div><div><b>'+q.title+'</b><small>'+q.name+' · '+q.desc+'</small></div></div><div class="quest-reward-v23"><span>🎁 '+q.reward+' 💰 · ⭐ '+q.xp+' XP</span><button class="btn '+(!done?'primary':'')+'" onclick="v23Talk(\''+id+'\')" '+(done?'disabled':'')+'>'+(done?'✓ FEITA':'VER MISSÃO')+'</button></div></div>';
   }).join('');
 }
 document.addEventListener('click',e=>{
@@ -2803,7 +2803,7 @@ function renderLoadout(){
     return '<div class="equip-slot-v27"><div class="slot-head-v27"><b>'+items[0].slotName+'</b><span>Selecionar 1</span></div>'+
       items.map(it=>{
         const has=v27Has(it.id),on=l[slot]===it.id;
-        return '<div class="item-row-v27"><div class="item-ico-v27">'+it.ico+'</div><div style="flex:1"><b>'+it.name+'</b><small>'+it.desc+(has?'':' · 🔒 bloqueado')+'</small></div><button class="equip-btn-v27 '+(on?'on':'')+'" '+(has?'':'disabled')+' onclick="v27Equip(\\''+it.id+'\\')">'+(on?'EQUIPADO':'EQUIPAR')+'</button></div>';
+        return '<div class="item-row-v27"><div class="item-ico-v27">'+it.ico+'</div><div style="flex:1"><b>'+it.name+'</b><small>'+it.desc+(has?'':' · 🔒 bloqueado')+'</small></div><button class="equip-btn-v27 '+(on?'on':'')+'" '+(has?'':'disabled')+' onclick="v27Equip(\''+it.id+'\')">'+(on?'EQUIPADO':'EQUIPAR')+'</button></div>';
       }).join('')+'</div>';
   }).join('');
   const p=v27Power(),el=id=>document.getElementById(id);
@@ -2963,7 +2963,7 @@ function renderFormation(){
   box.innerHTML=Object.entries(HEROES_V28).map(([id,h])=>{
     const selected=ids.includes(id),s=v28Stats(id),slot=selected?ids.indexOf(id)+1:'';
     const unlocked=!!state.heroRosterV28?.[id];
-    return '<div class="team-card-v29 '+(selected?'selected':'')+'"><div class="face">'+h.ico+'</div><div class="meta"><b>'+h.name+' <span class="role-chip-v29">'+h.role+'</span></b><small>ATK '+s.atk+' · DEF '+s.def+'</small></div><span class="team-slot-v29">'+(selected?'POSIÇÃO '+slot:'')+'</span><button class="btn '+(selected?'primary':'')+'" onclick="v29Toggle(\\''+id+'\\')" '+(unlocked?'':'disabled')+'>'+(selected?'REMOVER':'ADICIONAR')+'</button></div>';
+    return '<div class="team-card-v29 '+(selected?'selected':'')+'"><div class="face">'+h.ico+'</div><div class="meta"><b>'+h.name+' <span class="role-chip-v29">'+h.role+'</span></b><small>ATK '+s.atk+' · DEF '+s.def+'</small></div><span class="team-slot-v29">'+(selected?'POSIÇÃO '+slot:'')+'</span><button class="btn '+(selected?'primary':'')+'" onclick="v29Toggle(\''+id+'\')" '+(unlocked?'':'disabled')+'>'+(selected?'REMOVER':'ADICIONAR')+'</button></div>';
   }).join('');
 }
 // Feed team stats into equipment/combat power
@@ -3387,7 +3387,7 @@ const V37_ZONES=[
  {id:'volcano',name:'Vulcão',ico:'🌋',req:8,diff:4,enemy:'Titã de Magma',reward:650,desc:'Zona extrema com chance de loot épico.'},
  {id:'ruins',name:'Ruínas Antigas',ico:'🏛️',req:10,diff:5,enemy:'Colosso Ancestral',reward:900,desc:'A aventura mais difícil do mapa.'}
 ];
-state.adventureV37=state.adventureV37||{energy:10,maxEnergy:10,selected:'forest,wins:{}};
+state.adventureV37=state.adventureV37||{energy:10,maxEnergy:10,selected:'forest',wins:{}};
 if(typeof state.adventureV37.selected!=='string')state.adventureV37.selected='forest';
 function v37HQ(){return state.buildingsV21?.hq?.level||state.hqLevel||1}
 function v37Render(){
@@ -4665,7 +4665,7 @@ function v66Init(){const m=state.marketV66;if(!m.prices||typeof m.prices!=='obje
 function v66Tick(){v66Init();const m=state.marketV66;if(Date.now()-m.last>60000){V66_ITEMS.forEach(x=>{let q=m.prices[x.id];let change=Math.floor(Math.random()*31)-15;q.value=Math.max(Math.floor(x.base*.55),Math.min(Math.floor(x.base*1.8),q.value+change));q.trend=change;});m.last=Date.now();save();v66Render();}}
 function v66Trade(id){v66Init();const x=V66_ITEMS.find(a=>a.id===id),q=state.marketV66.prices[id];if(!x||!q)return;let amount=1;if((state.coins||0)<q.value){toastReward('🪙 Moedas insuficientes para negociar '+x.name+'.');return}state.coins-=q.value;state.marketV66.trades++;state.marketV66.last=Date.now();if(x.id==='crystal')state.gems=(state.gems||0)+1;else {state.marketV66.stock=state.marketV66.stock||{};state.marketV66.stock[id]=(state.marketV66.stock[id]||0)+amount;}if(typeof addCommanderXp==='function')addCommanderXp(8);save();v66Render();toastReward('🛒 Comprado: '+x.ico+' '+x.name+' por '+q.value+' moedas.');}
 function v66Sell(id){v66Init();const x=V66_ITEMS.find(a=>a.id===id),q=state.marketV66.prices[id];state.marketV66.stock=state.marketV66.stock||{};if(!x||!q||(state.marketV66.stock[id]||0)<1){toastReward('📦 Você não possui '+(x?x.name:'este recurso')+' para vender.');return}let val=Math.floor(q.value*.82);state.marketV66.stock[id]--;state.coins=(state.coins||0)+val;if(typeof v20AddEarned==='function')v20AddEarned(val);save();v66Render();toastReward('💰 Venda realizada: +'+val+' moedas.');}
-function v66Render(){v66Init();const box=document.getElementById('v66Market');if(!box)return;let html='<div class="v66-market"><div style="display:flex;justify-content:space-between;align-items:center"><b>📈 Mercado da Ilha</b><span class="b31-badge">DINÂMICO</span></div><small style="color:#91a8bc;display:block;margin-top:4px">Os preços mudam com o tempo. Compre barato e venda quando valorizar.</small><div class="v66-grid">';V66_ITEMS.forEach(x=>{let q=state.marketV66.prices[x.id],trend=q.trend>=0?'▲ +'+q.trend:'▼ '+q.trend,cls=q.trend>=0?'v66-up':'v66-down',stock=(state.marketV66.stock||{})[x.id]||0;let pct=Math.round(q.value/x.base*100);html+='<div class="v66-card"><div style="font-size:26px">'+x.ico+'</div><b>'+x.name+'</b><small>'+x.desc+'</small><div class="v66-price">🪙 '+q.value+' <span class="'+cls+'" style="font-size:8px">'+trend+'</span></div><div class="v66-bar"><i style="width:'+Math.min(100,Math.max(18,pct/1.8))+'%"></i></div><small>Estoque: '+stock+' · base '+x.base+'</small><div style="display:flex;gap:5px"><button class="btn" style="flex:1;font-size:8px" onclick="v66Trade(''+x.id+'')">COMPRAR</button><button class="btn" style="flex:1;font-size:8px" onclick="v66Sell(''+x.id+'')">VENDER</button></div></div>';});html+='</div><div class="v66-ticker">📊 Operações realizadas: '+(state.marketV66.trades||0)+' · Atualização automática a cada 60s</div></div>';box.innerHTML=html;}
+function v66Render(){v66Init();const box=document.getElementById('v66Market');if(!box)return;let html='<div class="v66-market"><div style="display:flex;justify-content:space-between;align-items:center"><b>📈 Mercado da Ilha</b><span class="b31-badge">DINÂMICO</span></div><small style="color:#91a8bc;display:block;margin-top:4px">Os preços mudam com o tempo. Compre barato e venda quando valorizar.</small><div class="v66-grid">';V66_ITEMS.forEach(x=>{let q=state.marketV66.prices[x.id],trend=q.trend>=0?'▲ +'+q.trend:'▼ '+q.trend,cls=q.trend>=0?'v66-up':'v66-down',stock=(state.marketV66.stock||{})[x.id]||0;let pct=Math.round(q.value/x.base*100);html+='<div class="v66-card"><div style="font-size:26px">'+x.ico+'</div><b>'+x.name+'</b><small>'+x.desc+'</small><div class="v66-price">🪙 '+q.value+' <span class="'+cls+'" style="font-size:8px">'+trend+'</span></div><div class="v66-bar"><i style="width:'+Math.min(100,Math.max(18,pct/1.8))+'%"></i></div><small>Estoque: '+stock+' · base '+x.base+'</small><div style="display:flex;gap:5px"><button class="btn" style="flex:1;font-size:8px" onclick="v66Trade(\''+x.id+'\')">COMPRAR</button><button class="btn" style="flex:1;font-size:8px" onclick="v66Sell(\''+x.id+'\')">VENDER</button></div></div>';});html+='</div><div class="v66-ticker">📊 Operações realizadas: '+(state.marketV66.trades||0)+' · Atualização automática a cada 60s</div></div>';box.innerHTML=html;}
 v66Init();
 setInterval(v66Tick,5000);
 setTimeout(v66Render,1800);
